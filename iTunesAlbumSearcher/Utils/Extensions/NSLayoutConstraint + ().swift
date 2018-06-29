@@ -10,7 +10,8 @@ import UIKit
 
 extension NSLayoutConstraint {
     convenience init(item: UIView, att: NSLayoutAttribute, toItem: UIView, const: CGFloat) {
-        self.init(item: item, attribute: att, relatedBy: .equal, toItem: toItem, attribute: att, multiplier: 1, constant: const)
+        self.init(item: item, attribute: att, relatedBy: .equal,
+                  toItem: toItem, attribute: att, multiplier: 1, constant: const)
     }
-    
+
 }

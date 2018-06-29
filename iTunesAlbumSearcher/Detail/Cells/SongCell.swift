@@ -10,58 +10,65 @@ import UIKit
 
 class SongCell: UITableViewCell {
 
-    //MARK: - Views
+    // MARK: - Views
     var trackNumber: UILabel = {
-        let label = UILabel(UIFont.boldSystemFont(ofSize: 16))
-        label.widthAnchor.constraint(equalToConstant: 40)
+        let label = UILabel(UIFont.boldSystemFont(ofSize: 14))
+        label.widthAnchor.constraint(equalToConstant: 30).isActive = true
         label.textAlignment = .center
         return label
     }()
-    
+
     var trackName: UILabel = {
-        let label = UILabel(UIFont.systemFont(ofSize: 16))
+        let label = UILabel(UIFont.systemFont(ofSize: 14))
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
         return label
     }()
-    
+
     var horizontalStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         stack.distribution = .fill
-        stack.spacing = 30
+        stack.alignment = .leading
+        stack.spacing = 10
         return stack
     }()
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    //MARK: - Functions
+
+    // MARK: - Functions
     func update(track: Track) {
-        trackNumber.text = track.trackNumber?.description
-        trackName.text = track.trackName
+        if let number = track.trackNumber,
+            let name = track.trackName {
+            trackNumber.text = number.description
+            trackName.text = name
+        }
     }
-    
-    //MARK: - Private functions
+
+    // MARK: - Private functions
     private func setup() {
         horizontalStack.addArrangedSubview(trackNumber)
         horizontalStack.addArrangedSubview(trackName)
-        
+
         addSubview(horizontalStack)
-        
+
         let centerY = NSLayoutConstraint(item: horizontalStack, att: .centerY, toItem: self, const: 0)
         let left = NSLayoutConstraint(item: horizontalStack, att: .leading, toItem: self, const: 8)
-        
-        addConstraints([centerY, left])
+        let right = NSLayoutConstraint(item: horizontalStack, att: .trailing, toItem: self, const: -8)
+
+        addConstraints([centerY, left, right])
         isUserInteractionEnabled = false
     }
 }
 
 extension SongCell: ReuseIdentifierProtocol {
-    
+
 }

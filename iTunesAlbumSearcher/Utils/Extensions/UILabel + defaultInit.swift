@@ -15,7 +15,7 @@ extension UILabel {
         self.textAlignment = .left
         self.font = font
     }
-    
+
     convenience init(_ font: UIFont, _ heightAnchorConstraint: CGFloat) {
         self.init(font)
         self.heightAnchor.constraint(equalToConstant: heightAnchorConstraint)

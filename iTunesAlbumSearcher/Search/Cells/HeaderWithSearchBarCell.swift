@@ -9,7 +9,7 @@
 import UIKit
 
 class HeaderWithSearchBarCell: UICollectionViewCell {
-    
+
     //Views
     let searchbar: UISearchBar = {
         let bar = UISearchBar()
@@ -19,18 +19,18 @@ class HeaderWithSearchBarCell: UICollectionViewCell {
         bar.placeholder = Consts.Searchbar.title.rawValue
         return bar
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         setup()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    //MARK: - Private functions
+
+    // MARK: - Private functions
     private func setup() {
         addSubview(searchbar)
 
@@ -44,5 +44,5 @@ class HeaderWithSearchBarCell: UICollectionViewCell {
 }
 
 extension HeaderWithSearchBarCell: ReuseIdentifierProtocol {
-    
+
 }

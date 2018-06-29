@@ -13,6 +13,6 @@ enum Consts {
         case title = "Search"
     }
     enum NavigationTitle: String {
-        case SearchView = "iTunes Search"
+        case searchView = "iTunes Search"
     }
 }

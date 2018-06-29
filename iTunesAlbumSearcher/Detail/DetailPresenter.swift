@@ -9,21 +9,21 @@
 import UIKit
 
 protocol DetailPresenterProtocol: DetailInteractoroutputProtocol, DetailTableViewControllerOutputProtocol {
-    
+
 }
 
 class DetailPresenter: DetailPresenterProtocol {
 
-    //MARK: - Properties
+    // MARK: - Properties
     weak var view: DetailTableViewControllerInputProtocol?
     var interactor: DetailInteractorInputProtocol?
-    
-    //MARK: - Functions
+
+    // MARK: - Functions
     func performTracks(_ collectionId: Int?) {
         view?.showActivity()
         interactor?.fetchTracksBy(collectionId: collectionId)
     }
-    
+
     func providedTracks(_ tracks: [Track]) {
         view?.hideActivity()
         view?.displayTracks(tracks)

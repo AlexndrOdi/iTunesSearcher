@@ -17,13 +17,13 @@ protocol SearchInteractorOuputProtocol: class {
 }
 
 class SearchInteractor: SearchInteractorInputProtocol {
-    
-    //MARK: - Properties
+
+    // MARK: - Properties
     weak var presenter: SearchPresenterInputProtocol?
-    
+
     var albums: [Album] = []
-    
-    //MARK: - Functions
+
+    // MARK: - Functions
     func fetchAlbumsBy(searchString: String) {
         APIManager.sharedManager.request(searchString, APIManager.API.albums, type: Album.self) { (albums) in
             self.albums = albums.sorted(by: { $1.collectionName > $0.collectionName })
@@ -32,8 +32,8 @@ class SearchInteractor: SearchInteractorInputProtocol {
             }
         }
     }
-    
-    //MARK: - Private functions
+
+    // MARK: - Private functions
     private func updateAlbums() {
         presenter?.provideAlbums(self.albums)
     }

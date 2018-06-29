@@ -13,18 +13,18 @@ protocol SearchRouterProtocol: class {
 }
 
 class SearchRouter: SearchRouterProtocol {
-    
-    //MARK: - Properties
+
+    // MARK: - Properties
     weak var view: SearchViewController?
-    
-    //MARK: - Navigations
+
+    // MARK: - Navigations
     func navigateToAlbum() {
-        let vc = DetailTableViewController()
-        passDataToNextScene(destinationVC: vc)
-        view?.navigationController?.pushViewController(vc, animated: true)
+        let viewController = DetailTableViewController()
+        passDataToNextScene(destinationVC: viewController)
+        view?.navigationController?.pushViewController(viewController, animated: true)
     }
-    
-    //MARK: - Data pass function
+
+    // MARK: - Data pass function
     private func passDataToNextScene(destinationVC: DetailTableViewController) {
         guard let selectedIndexPath = self.view?.collectionView?.indexPathsForSelectedItems?.first else {
             fatalError("The selected item is not being displayed by the table")

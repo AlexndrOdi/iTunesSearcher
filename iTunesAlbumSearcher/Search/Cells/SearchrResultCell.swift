@@ -9,8 +9,8 @@
 import UIKit
 
 class SearchrResultCell: UICollectionViewCell {
-    
-    //MARK: - Views
+
+    // MARK: - Views
     let imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -19,19 +19,19 @@ class SearchrResultCell: UICollectionViewCell {
         image.backgroundColor = UIColor.lightGray
         return image
     }()
-    
+
     let nameLabel: UILabel = {
         let label = UILabel(UIFont.boldSystemFont(ofSize: 12))
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
-    
+
     let genreLabel: UILabel = {
         let label = UILabel(UIFont.systemFont(ofSize: 10))
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
-    
+
     let verticalStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +40,7 @@ class SearchrResultCell: UICollectionViewCell {
         stack.spacing = 6
         return stack
     }()
-    
+
     let activity: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
@@ -49,62 +49,53 @@ class SearchrResultCell: UICollectionViewCell {
         indicator.color = UIColor.white
         return indicator
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         setup()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    //MARK: - Functions
+
+    // MARK: - Functions
     func update(album: Album) {
         nameLabel.text = album.collectionName
         genreLabel.text = album.primaryGenreName
-    
+
         activity.startAnimating()
-        
-        guard let imageURL = URL(string: album.artworkUrl100) else {
-            print("Image url not found in \(album)")
-            return
-        }
-        
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: imageURL) {
-                DispatchQueue.main.async {
-                    self.imageView.image = UIImage(data: data)
-                    self.activity.stopAnimating()
-                }
-            }
+
+        CacheManager.sharedManager.checkImageCache(url: album.artworkUrl100) { (image) in
+            self.imageView.image = image
+            self.activity.stopAnimating()
         }
     }
-    
-    //MARK: - Private functions
+
+    // MARK: - Private functions
     private func setup() {
         imageView.addSubview(activity)
-        
+
         let activityCenterY = NSLayoutConstraint(item: activity, att: .centerY, toItem: imageView, const: 0)
         let activityCenterX = NSLayoutConstraint(item: activity, att: .centerX, toItem: imageView, const: 0)
-        
+
         imageView.addConstraints([activityCenterX, activityCenterY])
-        
+
         verticalStack.addArrangedSubview(imageView)
         verticalStack.addArrangedSubview(nameLabel)
         verticalStack.addArrangedSubview(genreLabel)
         addSubview(verticalStack)
-        
+
         let top = NSLayoutConstraint(item: verticalStack, att: .top, toItem: self, const: 0)
         let left = NSLayoutConstraint(item: verticalStack, att: .leading, toItem: self, const: 0)
-        
+
         addConstraints([top, left])
-        
+
         self.backgroundColor = UIColor.white
     }
 }
 
 extension SearchrResultCell: ReuseIdentifierProtocol {
-    
+
 }

@@ -9,31 +9,33 @@
 import Foundation
 
 class APIManager {
-    
+
     enum API: String {
         case albums = "https://itunes.apple.com/search?entity=album&attribute=albumTerm&limit=50&term="
         case tracks = "https://itunes.apple.com/lookup?entity=song&id="
     }
-    
+
     static let sharedManager = APIManager()
-    
-    //MARK: - Generic request for decode data in needable structure
-    func request<T: Decodable>(_ searchString: String, _ requestURL: API , type: T.Type, complition: @escaping ([T]) -> ()) {
-        
+
+    // MARK: - Functions
+    ///Generic request for decode data in needable structure
+    func request<T: Decodable>(_ searchString: String, _ requestURL: API, type: T.Type,
+                               complition: @escaping ([T]) -> Void) {
+
         let formattedSearchString = searchString.replacingOccurrences(of: " ", with: "+")
-        
+
         guard let searchURL = URL(string: requestURL.rawValue + formattedSearchString) else {
             print("Incorrect URL request")
             return
         }
 
-        URLSession.shared.dataTask(with: searchURL) { (result, response, error) in
+        URLSession.shared.dataTask(with: searchURL) { (result, _, error) in
             if error != nil {
                 print("Error: \(String(describing: error?.localizedDescription))")
                 return
             }
             guard let data = result else { return }
-            
+
             do {
                 let models = try JSONDecoder().decode(type: [T].self, from: data, byKey: "results")
                 complition(models)

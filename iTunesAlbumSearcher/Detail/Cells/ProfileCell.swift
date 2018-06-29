@@ -10,7 +10,7 @@ import UIKit
 
 class ProfileCell: UITableViewHeaderFooterView {
 
-    //MARK: - Views
+    // MARK: - Views
     let imageAlbum: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -20,26 +20,31 @@ class ProfileCell: UITableViewHeaderFooterView {
     }()
 
     let albumText: UILabel = {
-        let label = UILabel(UIFont.systemFont(ofSize: 12), 16)
+        let label = UILabel(UIFont.boldSystemFont(ofSize: 12), 16)
+        label.textColor = UIColor.blue
         return label
     }()
     let artistText: UILabel = {
-        let label = UILabel(UIFont.systemFont(ofSize: 12), 16)
+        let label = UILabel(UIFont.boldSystemFont(ofSize: 12), 16)
+        label.textColor = UIColor.blue
         return label
     }()
     let genreText: UILabel = {
-        let label = UILabel(UIFont.systemFont(ofSize: 12), 16)
+        let label = UILabel(UIFont.boldSystemFont(ofSize: 12), 16)
+        label.textColor = UIColor.blue
         return label
     }()
     let countryText: UILabel = {
-        let label = UILabel(UIFont.systemFont(ofSize: 12), 16)
+        let label = UILabel(UIFont.boldSystemFont(ofSize: 12), 16)
+        label.textColor = UIColor.blue
         return label
     }()
     let yearText: UILabel = {
-        let label = UILabel(UIFont.systemFont(ofSize: 12), 16)
+        let label = UILabel(UIFont.boldSystemFont(ofSize: 12), 16)
+        label.textColor = UIColor.blue
         return label
     }()
-    
+
     let verticalStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -49,41 +54,32 @@ class ProfileCell: UITableViewHeaderFooterView {
         stack.backgroundColor = UIColor.white
         return stack
     }()
-    
+
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setup()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    //MARK: - Functions
+
+    // MARK: - Functions
     func update(album: Album?) {
         guard let recivedAlbum = album else { return }
-        
+
         self.albumText.text = "Album: " + recivedAlbum.collectionName
         self.artistText.text = "Artist: " + recivedAlbum.artistName
         self.genreText.text = "Genre: " + recivedAlbum.primaryGenreName
         self.countryText.text = "Country: " + recivedAlbum.country
         self.yearText.text = "Date: " + recivedAlbum.releaseDate.prefix(10)
-        
-        guard let imageURL = URL(string: recivedAlbum.artworkUrl100) else {
-            print("Image url not found in \(recivedAlbum)")
-            return
-        }
-        
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: imageURL) {
-                DispatchQueue.main.async {
-                    self.imageAlbum.image = UIImage(data: data)
-                }
-            }
+
+        CacheManager.sharedManager.checkImageCache(url: recivedAlbum.artworkUrl100) { (image) in
+            self.imageAlbum.image = image
         }
     }
-    
-    //MARK: - Private functions
+
+    // MARK: - Private functions
     private func setup() {
         verticalStack.addArrangedSubview(albumText)
         verticalStack.addArrangedSubview(artistText)
@@ -95,29 +91,28 @@ class ProfileCell: UITableViewHeaderFooterView {
         addSubview(verticalStack)
 
         verticalStack.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
+
         let imageLeft = NSLayoutConstraint(item: imageAlbum, att: .leading, toItem: self, const: 4)
         let imageCenterY = NSLayoutConstraint(item: imageAlbum, att: .centerY, toItem: self, const: 0)
-        
-        let stackLeft = NSLayoutConstraint(item: verticalStack, attribute: .leading, relatedBy: .equal, toItem: imageAlbum, attribute: .trailing, multiplier: 1, constant: 8)
+
+        let stackLeft = NSLayoutConstraint(item: verticalStack, attribute: .leading, relatedBy: .equal,
+                                           toItem: imageAlbum, attribute: .trailing, multiplier: 1, constant: 8)
         let stackCenterY = NSLayoutConstraint(item: verticalStack, att: .centerY, toItem: self, const: 0)
         let stackRight = NSLayoutConstraint(item: verticalStack, att: .trailing, toItem: self, const: -8)
-        
-        
+
         addConstraints([imageLeft, imageCenterY,
                         stackLeft, stackRight, stackCenterY])
-        
+
         isUserInteractionEnabled = false
-        
+
         backgroundView = {
             let view = UIView()
             view.backgroundColor =  UIColor.white
             return view
         }()
     }
-    
 }
 
 extension ProfileCell: ReuseIdentifierProtocol {
-    
+
 }

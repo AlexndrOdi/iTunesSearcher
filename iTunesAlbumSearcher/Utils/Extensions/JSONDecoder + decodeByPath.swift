@@ -12,7 +12,9 @@ extension JSONDecoder {
     func decode<T: Decodable>(type: T.Type, from data: Data, byKey path: String) throws -> T {
         let jsonTop = try JSONSerialization.jsonObject(with: data)
         guard let jsonChild = (jsonTop as AnyObject).value(forKeyPath: path) else {
-            throw DecodingError.valueNotFound(T.self, DecodingError.Context.init(codingPath: [], debugDescription: "Child value \(path) not found."))
+            let decodingError = DecodingError.Context.init(codingPath: [],
+                                                           debugDescription: "Child value \(path) not found.")
+            throw DecodingError.valueNotFound(T.self, decodingError)
         }
         let resultData = try JSONSerialization.data(withJSONObject: jsonChild)
         return try decode(type, from: resultData)

@@ -14,9 +14,9 @@ public protocol ReuseIdentifierProtocol {
 
 extension ReuseIdentifierProtocol where Self: UIView {
     static var identifier: String {
-        guard let id = NSStringFromClass(self).components(separatedBy: ".").last else {
+        guard let reuseId = NSStringFromClass(self).components(separatedBy: ".").last else {
             fatalError("Incorrect name of collection view cell.")
         }
-        return id
+        return reuseId
     }
 }

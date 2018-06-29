@@ -9,22 +9,22 @@
 import Foundation
 
 class SearchConfigurer {
-    
+
     static let sharedInstance = SearchConfigurer()
-    
+
     func configure(view: SearchViewController) {
         let presenter = SearchPresenter()
         let interactor = SearchInteractor()
         let router = SearchRouter()
-        
+
         view.presenter = presenter
-        
+
         presenter.view = view
         presenter.interactor = interactor
         presenter.router = router
-        
+
         interactor.presenter = presenter
-        
+
         router.view = view
     }
 }

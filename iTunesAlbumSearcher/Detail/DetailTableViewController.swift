@@ -20,13 +20,13 @@ protocol DetailTableViewControllerOutputProtocol: class {
 
 class DetailTableViewController: UITableViewController, DetailTableViewControllerInputProtocol {
 
-    //MARK: - Properties
+    // MARK: - Properties
     var presenter: DetailTableViewControllerOutputProtocol?
 
     var album: Album?
     var tracks: [Track] = []
 
-    //MARK: - Activity indicator
+    // MARK: - Activity indicator
     let activity: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.hidesWhenStopped = true
@@ -34,7 +34,7 @@ class DetailTableViewController: UITableViewController, DetailTableViewControlle
         indicator.color = UIColor.black
         return indicator
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         DetailConfigurer.sharedInstance.configure(view: self)
@@ -44,8 +44,8 @@ class DetailTableViewController: UITableViewController, DetailTableViewControlle
         presenter?.performTracks(album?.collectionId)
         self.view.addSubview(activity)
     }
-    
-    //MARK: - TableView functions
+
+    // MARK: - TableView functions
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: ProfileCell.identifier) as? ProfileCell else {
             fatalError("The dequeued cell is not an instance of ProfileCell")
@@ -59,41 +59,42 @@ class DetailTableViewController: UITableViewController, DetailTableViewControlle
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 120
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tracks.count
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.row == 0 ? 0 : 40
+        return indexPath.row == 0 ? 0 : 50
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SongCell.identifier, for: indexPath) as? SongCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SongCell.identifier,
+                                                       for: indexPath) as? SongCell else {
             fatalError("The dequeued cell is not an instance of SongCell")
         }
         cell.update(track: tracks[indexPath.row])
-        
+
         return cell
     }
-    
-    //MARK: - Functions
+
+    // MARK: - Functions
     func displayTracks(_ tracks: [Track]) {
         self.tracks = tracks
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-    }    
+    }
 }
 extension DetailTableViewController {
-    
-    //MARK: - Activity indicator
+
+    // MARK: - Activity indicator
     func showActivity() {
         if activity.isAnimating { return }
         activity.center = self.tableView.center
         activity.startAnimating()
     }
-    
+
     func hideActivity() {
         if !activity.isAnimating { return }
         activity.stopAnimating()

@@ -17,16 +17,16 @@ protocol DetailInteractoroutputProtocol: class {
 }
 
 class DetailInteractor: DetailInteractorInputProtocol {
-    
-    //MARK: - Properties
+
+    // MARK: - Properties
     weak var presenter: DetailInteractoroutputProtocol?
-    
+
     var tracks: [Track] = []
-    
-    //MARK: - Functions
+
+    // MARK: - Functions
     func fetchTracksBy(collectionId: Int?) {
-        if let id = collectionId {
-            APIManager.sharedManager.request(id.description, APIManager.API.tracks, type: Track.self) { (tracks) in
+        if let this = collectionId {
+            APIManager.sharedManager.request(this.description, APIManager.API.tracks, type: Track.self) { (tracks) in
                 self.tracks = tracks
                 DispatchQueue.main.async {
                     self.provideTracks()
@@ -34,8 +34,8 @@ class DetailInteractor: DetailInteractorInputProtocol {
             }
         }
     }
-    
-    //MARK: - Private functions
+
+    // MARK: - Private functions
     private func provideTracks() {
         presenter?.providedTracks(self.tracks)
     }

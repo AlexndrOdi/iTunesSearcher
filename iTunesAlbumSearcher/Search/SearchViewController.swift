@@ -10,6 +10,7 @@ import UIKit
 
 protocol SearchViewControllerInputProtocol: class {
     func displaySearchResult(albums: [Album])
+    func displayEmptyField(show: Bool)
     func showActivity()
     func hideActivity()
 }
@@ -24,6 +25,7 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
     var presenter: SearchPresenterInputProtocol?
 
     var albums: [Album] = []
+    var emptyReslut: Bool = false
 
     // MARK: - Activity view
     let activityIndicator: UIActivityIndicatorView = {
@@ -43,6 +45,9 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
         collectionView?.register(HeaderWithSearchBarCell.self,
                                  forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
                                  withReuseIdentifier: HeaderWithSearchBarCell.identifier)
+        collectionView?.register(NotFoundCell.self,
+                                 forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+                                 withReuseIdentifier: NotFoundCell.identifier)
         collectionView?.backgroundColor = UIColor.white
         self.navigationItem.title = Consts.NavigationTitle.searchView.rawValue
         self.navigationController?.navigationBar.backgroundColor = UIColor(red: 232/255,
@@ -58,6 +63,13 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
             self.collectionView?.reloadData()
         }
     }
+    func displayEmptyField(show: Bool) {
+        emptyReslut = show
+        self.albums = []
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
+    }
 
     // MARK: - Collection view layout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -67,12 +79,16 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (self.view.frame.width / 3) - 16, height: 150)
+        return CGSize(width: (self.view.frame.width / 3) - 16, height: 130)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: self.view.frame.width, height: 60)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: self.view.frame.width, height: self.view.frame.height/2)
     }
 
     // MARK: - Collection view data source
@@ -82,13 +98,22 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
                                  at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let cell  = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
-                                         withReuseIdentifier: HeaderWithSearchBarCell.identifier,
-                                         for: indexPath) as? HeaderWithSearchBarCell else {
-            fatalError("The dequeued cell is not an instance of SearchrResultCell")
+        if kind == UICollectionElementKindSectionHeader {
+            guard let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
+                                                                             withReuseIdentifier: HeaderWithSearchBarCell.identifier,
+                                                                             for: indexPath) as? HeaderWithSearchBarCell else {
+                                                                                fatalError("The dequeued cell is not an instance of SearchrResultCell")
+            }
+            cell.searchbar.delegate = presenter
+            
+            return cell
         }
-        cell.searchbar.delegate = presenter
-
+        guard let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter,
+                                                                         withReuseIdentifier: NotFoundCell.identifier,
+                                                                         for: indexPath) as? NotFoundCell else {
+                                                                            fatalError("The dequeued cell is not an instance of NotFoundCell")
+        }
+        cell.update(empty: emptyReslut)
         return cell
     }
 

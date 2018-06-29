@@ -9,8 +9,9 @@
 import Foundation
 
 enum Consts {
-    enum Searchbar: String {
+    enum SearchBar: String {
         case title = "Search"
+        case noResults = "No search results"
     }
     enum NavigationTitle: String {
         case searchView = "iTunes Search"

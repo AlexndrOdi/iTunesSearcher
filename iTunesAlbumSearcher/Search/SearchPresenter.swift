@@ -29,7 +29,11 @@ class SearchPresenter: NSObject, SearchPresenterInputProtocol {
     // MARK: - Functions
     func provideAlbums(_ albums: [Album]) {
         view?.hideActivity()
-        view?.displaySearchResult(albums: albums)
+        if albums.isEmpty {
+            view?.displayEmptyField(show: true)
+        } else {
+            view?.displaySearchResult(albums: albums)
+        }
     }
 
     // MARK: - SearchBar methods
@@ -37,8 +41,20 @@ class SearchPresenter: NSObject, SearchPresenterInputProtocol {
         self.searchText = searchText
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        view?.displayEmptyField(show: false)
         view?.showActivity()
+        interactor?.clearCache()
         interactor?.fetchAlbumsBy(searchString: self.searchText)
         searchBar.resignFirstResponder()
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        interactor?.cancelFetchingAlbums()
+        view?.hideActivity()
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.resignFirstResponder()
+        searchBar.text = nil
+    }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
     }
 }

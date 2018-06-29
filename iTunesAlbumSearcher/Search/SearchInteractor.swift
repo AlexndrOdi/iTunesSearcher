@@ -10,6 +10,8 @@ import Foundation
 
 protocol SearchInteractorInputProtocol: class {
     func fetchAlbumsBy(searchString: String)
+    func cancelFetchingAlbums()
+    func clearCache()
 }
 
 protocol SearchInteractorOuputProtocol: class {
@@ -31,6 +33,12 @@ class SearchInteractor: SearchInteractorInputProtocol {
                 self.updateAlbums()
             }
         }
+    }
+    func cancelFetchingAlbums() {
+        APIManager.sharedManager.stopRequest()
+    }
+    func clearCache() {
+        CacheManager.sharedManager.clearAllCache()
     }
 
     // MARK: - Private functions

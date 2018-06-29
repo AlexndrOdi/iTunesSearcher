@@ -44,4 +44,8 @@ class APIManager {
             }
         }.resume()
     }
+    ///Invalidate and cancel task
+    func stopRequest() {
+        URLSession.shared.invalidateAndCancel()
+    }
 }

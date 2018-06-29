@@ -16,7 +16,7 @@ class HeaderWithSearchBarCell: UICollectionViewCell {
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.isTranslucent = true
         bar.searchBarStyle = .minimal
-        bar.placeholder = Consts.Searchbar.title.rawValue
+        bar.placeholder = Consts.SearchBar.title.rawValue
         return bar
     }()
 

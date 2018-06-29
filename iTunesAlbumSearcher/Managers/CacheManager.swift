@@ -19,7 +19,7 @@ class CacheManager {
     }
 
     // MARK: - Functions
-    ///Provide cached images or load data image if neeeded
+    ///Provide cached images or load data image if needed
     func checkImageCache(url: String, complition: @escaping (UIImage?) -> Void) {
         guard let imageURL = URL(string: url) else {
             print("Image url not found.")
@@ -40,5 +40,10 @@ class CacheManager {
                 }
             }
         }
+    }
+
+    ///Clear all cached objects
+    func clearAllCache() {
+        imageCache.removeAllObjects()
     }
 }

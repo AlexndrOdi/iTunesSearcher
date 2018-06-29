@@ -16,6 +16,8 @@ class SearchrResultCell: UICollectionViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.widthAnchor.constraint(equalToConstant: 90).isActive = true
         image.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        image.layer.cornerRadius = 12
+        image.layer.masksToBounds = true
         image.backgroundColor = UIColor.lightGray
         return image
     }()
@@ -62,6 +64,10 @@ class SearchrResultCell: UICollectionViewCell {
 
     // MARK: - Functions
     func update(album: Album) {
+        imageView.image = nil
+        nameLabel.text = nil
+        genreLabel.text = nil
+
         nameLabel.text = album.collectionName
         genreLabel.text = album.primaryGenreName
 

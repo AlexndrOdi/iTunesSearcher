@@ -33,6 +33,7 @@
 		952A3DA320E5652800631797 /* JSONDecoder + decodeByPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A3DA220E5652800631797 /* JSONDecoder + decodeByPath.swift */; };
 		95673D3C20E65AE200B3D6CD /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95673D3B20E65AE200B3D6CD /* CacheManager.swift */; };
 		95673D4120E67AF800B3D6CD /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 95673D4020E67AF800B3D6CD /* Podfile */; };
+		95A88B2E20E6BDBA0003B96E /* NotFoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A88B2D20E6BDBA0003B96E /* NotFoundCell.swift */; };
 		B7BEB9836BDD5220901A3E22 /* Pods_iTunesAlbumSearcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA87750807118DC1D1D4121D /* Pods_iTunesAlbumSearcher.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		952A3DA220E5652800631797 /* JSONDecoder + decodeByPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder + decodeByPath.swift"; sourceTree = "<group>"; };
 		95673D3B20E65AE200B3D6CD /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		95673D4020E67AF800B3D6CD /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		95A88B2D20E6BDBA0003B96E /* NotFoundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotFoundCell.swift; sourceTree = "<group>"; };
 		EA87750807118DC1D1D4121D /* Pods_iTunesAlbumSearcher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iTunesAlbumSearcher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -141,6 +143,7 @@
 			children = (
 				952A3D6E20E2C6DD00631797 /* SearchrResultCell.swift */,
 				952A3D7F20E2E51600631797 /* HeaderWithSearchBarCell.swift */,
+				95A88B2D20E6BDBA0003B96E /* NotFoundCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				952A3D8220E2F0DD00631797 /* Consts.swift in Sources */,
 				952A3D7120E2C6FB00631797 /* SearchViewController.swift in Sources */,
 				952A3D7320E2C76F00631797 /* ReuseIdentifierProtocol.swift in Sources */,
+				95A88B2E20E6BDBA0003B96E /* NotFoundCell.swift in Sources */,
 				952A3D9220E375CD00631797 /* DetailConfigurer.swift in Sources */,
 				952A3D8020E2E51600631797 /* HeaderWithSearchBarCell.swift in Sources */,
 				952A3D7E20E2CA7A00631797 /* SearchConfigurer.swift in Sources */,

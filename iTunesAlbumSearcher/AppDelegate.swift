@@ -20,9 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
 
         let layout = UICollectionViewFlowLayout()
-
         let searchViewController = SearchViewController(collectionViewLayout: layout)
-
         let navigationController = UINavigationController(rootViewController: searchViewController)
 
         window?.rootViewController = navigationController
@@ -47,6 +45,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-
+        CacheManager.sharedManager.clearAllCache()
     }
 }

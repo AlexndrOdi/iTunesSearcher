@@ -16,6 +16,8 @@ class ProfileCell: UITableViewHeaderFooterView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.widthAnchor.constraint(equalToConstant: 100).isActive = true
         view.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        view.layer.cornerRadius = 15
+        view.layer.masksToBounds = true
         return view
     }()
 

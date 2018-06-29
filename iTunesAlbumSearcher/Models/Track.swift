@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Track: Decodable {
-    var trackName: String
-    var trackNumber: Int
+struct Track: Codable {
+    var trackName: String?
+    var trackNumber: Int?
 }

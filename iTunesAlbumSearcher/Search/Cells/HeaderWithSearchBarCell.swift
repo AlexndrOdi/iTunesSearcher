@@ -30,9 +30,10 @@ class HeaderWithSearchBarCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Private functions
     private func setup() {
         addSubview(searchbar)
-        
+
         let left = NSLayoutConstraint(item: searchbar, att: .leading, toItem: self, const: 0)
         let right = NSLayoutConstraint(item: searchbar, att: .trailing, toItem: self, const: 0)
         let top = NSLayoutConstraint(item: searchbar, att: .top, toItem: self, const: 0)

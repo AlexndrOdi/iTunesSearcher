@@ -10,27 +10,25 @@ import UIKit
 
 class SearchrResultCell: UICollectionViewCell {
     
-    //Views
+    //MARK: - Views
     let imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.widthAnchor.constraint(equalToConstant: 90).isActive = true
         image.heightAnchor.constraint(equalToConstant: 90).isActive = true
-        image.backgroundColor = UIColor.red
+        image.backgroundColor = UIColor.lightGray
         return image
     }()
     
     let nameLabel: UILabel = {
         let label = UILabel(UIFont.boldSystemFont(ofSize: 12))
         label.lineBreakMode = .byTruncatingTail
-        label.backgroundColor = UIColor.purple
         return label
     }()
     
     let genreLabel: UILabel = {
         let label = UILabel(UIFont.systemFont(ofSize: 10))
         label.lineBreakMode = .byTruncatingTail
-        label.backgroundColor = UIColor.lightGray
         return label
     }()
     
@@ -43,6 +41,15 @@ class SearchrResultCell: UICollectionViewCell {
         return stack
     }()
     
+    let activity: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.activityIndicatorViewStyle = .gray
+        indicator.hidesWhenStopped = true
+        indicator.color = UIColor.white
+        return indicator
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -53,8 +60,37 @@ class SearchrResultCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //Setup views in cell
+    //MARK: - Functions
+    func update(album: Album) {
+        nameLabel.text = album.collectionName
+        genreLabel.text = album.primaryGenreName
+    
+        activity.startAnimating()
+        
+        guard let imageURL = URL(string: album.artworkUrl100) else {
+            print("Image url not found in \(album)")
+            return
+        }
+        
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: imageURL) {
+                DispatchQueue.main.async {
+                    self.imageView.image = UIImage(data: data)
+                    self.activity.stopAnimating()
+                }
+            }
+        }
+    }
+    
+    //MARK: - Private functions
     private func setup() {
+        imageView.addSubview(activity)
+        
+        let activityCenterY = NSLayoutConstraint(item: activity, att: .centerY, toItem: imageView, const: 0)
+        let activityCenterX = NSLayoutConstraint(item: activity, att: .centerX, toItem: imageView, const: 0)
+        
+        imageView.addConstraints([activityCenterX, activityCenterY])
+        
         verticalStack.addArrangedSubview(imageView)
         verticalStack.addArrangedSubview(nameLabel)
         verticalStack.addArrangedSubview(genreLabel)

@@ -10,19 +10,28 @@ import UIKit
 
 protocol SearchRouterProtocol: class {
     func navigateToAlbum()
-    func passDataToNextScene(segue: UIStoryboardSegue)
 }
 
 class SearchRouter: SearchRouterProtocol {
     
+    //MARK: - Properties
     weak var view: SearchViewController?
     
+    //MARK: - Navigations
     func navigateToAlbum() {
         let vc = DetailTableViewController()
+        passDataToNextScene(destinationVC: vc)
         view?.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func passDataToNextScene(segue: UIStoryboardSegue) {
-        //TODO: ..
+    //MARK: - Data pass function
+    private func passDataToNextScene(destinationVC: DetailTableViewController) {
+        guard let selectedIndexPath = self.view?.collectionView?.indexPathsForSelectedItems?.first else {
+            fatalError("The selected item is not being displayed by the table")
+        }
+        guard let album = view?.albums[selectedIndexPath.row] else {
+            fatalError("Not found album in \(selectedIndexPath.row)")
+        }
+        destinationVC.album = album
     }
 }

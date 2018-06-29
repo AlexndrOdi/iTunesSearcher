@@ -8,14 +8,12 @@
 
 import Foundation
 
-struct Album: Decodable {
-    let artistName: String
+struct Album: Codable {
+    var artistName: String
     var artworkUrl100: String
-    let collectionId: Int
-    let collectionName: String
-    let country: String
-    let primaryGenreName: String
-    let releaseDate: String
+    var collectionId: Int
+    var collectionName: String
+    var country: String
+    var primaryGenreName: String
+    var releaseDate: String
 }
-
-//"resultCount\":2,\n \"results\":

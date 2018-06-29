@@ -13,7 +13,19 @@ protocol DetailPresenterProtocol: DetailInteractoroutputProtocol, DetailTableVie
 }
 
 class DetailPresenter: DetailPresenterProtocol {
-    
+
+    //MARK: - Properties
     weak var view: DetailTableViewControllerInputProtocol?
     var interactor: DetailInteractorInputProtocol?
+    
+    //MARK: - Functions
+    func performTracks(_ collectionId: Int?) {
+        view?.showActivity()
+        interactor?.fetchTracksBy(collectionId: collectionId)
+    }
+    
+    func providedTracks(_ tracks: [Track]) {
+        view?.hideActivity()
+        view?.displayTracks(tracks)
+    }
 }

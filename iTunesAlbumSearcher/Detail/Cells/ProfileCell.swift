@@ -14,35 +14,29 @@ class ProfileCell: UITableViewHeaderFooterView {
     let imageAlbum: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.red
         view.widthAnchor.constraint(equalToConstant: 100).isActive = true
         view.heightAnchor.constraint(equalToConstant: 100).isActive = true
         return view
     }()
 
-    let album: UILabel = {
-        let label = UILabel(UIFont.systemFont(ofSize: 10), 16)
-        label.backgroundColor = UIColor.blue
+    let albumText: UILabel = {
+        let label = UILabel(UIFont.systemFont(ofSize: 12), 16)
         return label
     }()
-    let artist: UILabel = {
-        let label = UILabel(UIFont.systemFont(ofSize: 10), 16)
-        label.backgroundColor = UIColor.yellow
+    let artistText: UILabel = {
+        let label = UILabel(UIFont.systemFont(ofSize: 12), 16)
         return label
     }()
-    let genre: UILabel = {
-        let label = UILabel(UIFont.systemFont(ofSize: 10), 16)
-        label.backgroundColor = UIColor.cyan
+    let genreText: UILabel = {
+        let label = UILabel(UIFont.systemFont(ofSize: 12), 16)
         return label
     }()
-    let country: UILabel = {
-        let label = UILabel(UIFont.systemFont(ofSize: 10), 16)
-        label.backgroundColor = UIColor.brown
+    let countryText: UILabel = {
+        let label = UILabel(UIFont.systemFont(ofSize: 12), 16)
         return label
     }()
-    let year: UILabel = {
-        let label = UILabel(UIFont.systemFont(ofSize: 10), 16)
-        label.backgroundColor = UIColor.green
+    let yearText: UILabel = {
+        let label = UILabel(UIFont.systemFont(ofSize: 12), 16)
         return label
     }()
     
@@ -65,12 +59,37 @@ class ProfileCell: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Functions
+    func update(album: Album?) {
+        guard let recivedAlbum = album else { return }
+        
+        self.albumText.text = "Album: " + recivedAlbum.collectionName
+        self.artistText.text = "Artist: " + recivedAlbum.artistName
+        self.genreText.text = "Genre: " + recivedAlbum.primaryGenreName
+        self.countryText.text = "Country: " + recivedAlbum.country
+        self.yearText.text = "Date: " + recivedAlbum.releaseDate.prefix(10)
+        
+        guard let imageURL = URL(string: recivedAlbum.artworkUrl100) else {
+            print("Image url not found in \(recivedAlbum)")
+            return
+        }
+        
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: imageURL) {
+                DispatchQueue.main.async {
+                    self.imageAlbum.image = UIImage(data: data)
+                }
+            }
+        }
+    }
+    
+    //MARK: - Private functions
     private func setup() {
-        verticalStack.addArrangedSubview(album)
-        verticalStack.addArrangedSubview(artist)
-        verticalStack.addArrangedSubview(genre)
-        verticalStack.addArrangedSubview(country)
-        verticalStack.addArrangedSubview(year)
+        verticalStack.addArrangedSubview(albumText)
+        verticalStack.addArrangedSubview(artistText)
+        verticalStack.addArrangedSubview(genreText)
+        verticalStack.addArrangedSubview(countryText)
+        verticalStack.addArrangedSubview(yearText)
 
         addSubview(imageAlbum)
         addSubview(verticalStack)

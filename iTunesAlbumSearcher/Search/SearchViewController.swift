@@ -9,35 +9,33 @@
 import UIKit
 
 protocol SearchViewControllerInputProtocol: class {
-    
+    func displaySearchResult(albums: [Album])
+    func showActivity()
+    func hideActivity()
 }
 
 protocol SearchViewControllerOutputProtocol: class {
     func navigateToAlbumDetail()
-    func passDataToNextScene(segue: UIStoryboardSegue)
 }
 
 class SearchViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, SearchViewControllerInputProtocol {
     
+    //MARK: - Properties
     var presenter: SearchPresenterInputProtocol?
-
+    
+    var albums: [Album] = []
+    
+    //MARK: - Activity view
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.activityIndicatorViewStyle = .whiteLarge
+        indicator.color = UIColor.black
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-        
-        
-        APIManager.sharedManager.request("park", APIManager.API.albums, type: Album.self) { (albums) in
-            albums.forEach({ (item) in
-                print(item)
-            })
-        }
-        
-        
-        
-        
-        
         SearchConfigurer.sharedInstance.configure(view: self)
         
         collectionView?.register(SearchrResultCell.self,
@@ -46,6 +44,17 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
                                  forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
                                  withReuseIdentifier: HeaderWithSearchBarCell.identifier)
         collectionView?.backgroundColor = UIColor.white
+        self.navigationItem.title = Consts.NavigationTitle.SearchView.rawValue
+        self.navigationController?.navigationBar.backgroundColor = UIColor(red: 232/255, green: 140/255, blue: 1, alpha: 1)
+        self.view.addSubview(activityIndicator)
+    }
+    
+    //MARK: - Functions
+    func displaySearchResult(albums: [Album]) {
+        self.albums = albums
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
     }
 
     //MARK: - Collection view layout
@@ -63,7 +72,7 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
     
     //MARK: - Collection view data source
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return albums.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -71,7 +80,6 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
                                                                           withReuseIdentifier: HeaderWithSearchBarCell.identifier, for: indexPath) as? HeaderWithSearchBarCell else {
             fatalError("The dequeued cell is not an instance of SearchrResultCell")
         }
-        
         cell.searchbar.delegate = presenter
         
         return cell
@@ -81,10 +89,7 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchrResultCell.identifier, for: indexPath) as? SearchrResultCell else {
             fatalError("The dequeued cell is not an instance of SearchrResultCell")
         }
-
-        cell.nameLabel.text = "Some album name"
-        cell.genreLabel.text = "Some genre"
-        cell.backgroundColor = UIColor.clear
+        cell.update(album: albums[indexPath.row])
         
         return cell
     }
@@ -94,4 +99,17 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
         presenter?.navigateToAlbumDetail()
     }
    
+}
+// MARK: - Activity indicator
+extension SearchViewController {
+
+    func showActivity() {
+        if activityIndicator.isAnimating { return }
+        activityIndicator.center = self.view.center
+        activityIndicator.startAnimating()
+    }
+    func hideActivity() {
+        if !activityIndicator.isAnimating { return }
+        activityIndicator.stopAnimating()
+    }
 }

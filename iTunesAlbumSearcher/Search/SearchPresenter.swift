@@ -14,20 +14,31 @@ protocol SearchPresenterInputProtocol: SearchViewControllerOutputProtocol, Searc
 
 class SearchPresenter: NSObject, SearchPresenterInputProtocol {
     
+    //MARK: - Properties
     weak var view: SearchViewControllerInputProtocol?
     var interactor: SearchInteractorInputProtocol?
     var router: SearchRouterProtocol?
+    
+    var searchText: String = ""
     
     //MARK: - Navigation
     func navigateToAlbumDetail() {
         router?.navigateToAlbum()
     }
     
-    //MARK: - Pass data by identifier
-    func passDataToNextScene(segue: UIStoryboardSegue) {
-        
+    //MARK: - Functions
+    func provideAlbums(_ albums: [Album]) {
+        view?.hideActivity()
+        view?.displaySearchResult(albums: albums)
     }
     
-    
-    //SearchBar
+    //MARK: - SearchBar methods
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.searchText = searchText
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        view?.showActivity()
+        interactor?.fetchAlbumsBy(searchString: self.searchText)
+        searchBar.resignFirstResponder()
+    }
 }

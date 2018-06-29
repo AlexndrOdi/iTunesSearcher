@@ -30,6 +30,7 @@
 		952A3D9A20E408BE00631797 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A3D9920E408BE00631797 /* Album.swift */; };
 		952A3D9C20E4090500631797 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A3D9B20E4090500631797 /* Track.swift */; };
 		952A3D9E20E42BEB00631797 /* UILabel + defaultInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A3D9D20E42BEB00631797 /* UILabel + defaultInit.swift */; };
+		952A3DA320E5652800631797 /* JSONDecoder + decodeByPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A3DA220E5652800631797 /* JSONDecoder + decodeByPath.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		952A3D9920E408BE00631797 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		952A3D9B20E4090500631797 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		952A3D9D20E42BEB00631797 /* UILabel + defaultInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + defaultInit.swift"; sourceTree = "<group>"; };
+		952A3DA220E5652800631797 /* JSONDecoder + decodeByPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder + decodeByPath.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,8 +110,7 @@
 			children = (
 				952A3D7220E2C76F00631797 /* ReuseIdentifierProtocol.swift */,
 				952A3D8120E2F0DD00631797 /* Consts.swift */,
-				952A3D8320E2F1CD00631797 /* NSLayoutConstraint + ().swift */,
-				952A3D9D20E42BEB00631797 /* UILabel + defaultInit.swift */,
+				952A3D9F20E43E0E00631797 /* Extensions */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -172,6 +173,16 @@
 				952A3D9B20E4090500631797 /* Track.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		952A3D9F20E43E0E00631797 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				952A3D8320E2F1CD00631797 /* NSLayoutConstraint + ().swift */,
+				952A3D9D20E42BEB00631797 /* UILabel + defaultInit.swift */,
+				952A3DA220E5652800631797 /* JSONDecoder + decodeByPath.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +276,7 @@
 				952A3D8B20E2FC8700631797 /* DetailInteractor.swift in Sources */,
 				952A3D5D20E2C63600631797 /* AppDelegate.swift in Sources */,
 				952A3D6F20E2C6DD00631797 /* SearchrResultCell.swift in Sources */,
+				952A3DA320E5652800631797 /* JSONDecoder + decodeByPath.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

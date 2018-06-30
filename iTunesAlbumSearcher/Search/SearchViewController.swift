@@ -13,6 +13,7 @@ protocol SearchViewControllerInputProtocol: class {
     func displayEmptyField(show: Bool)
     func showActivity()
     func hideActivity()
+    func showAlertWith(description: String?)
 }
 
 protocol SearchViewControllerOutputProtocol: class {
@@ -34,6 +35,13 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
         indicator.color = UIColor.black
         indicator.hidesWhenStopped = true
         return indicator
+    }()
+    // MARK: - Alert view
+    let alert: UIAlertController = {
+        let alert = UIAlertController(title: "Error", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(action)
+        return alert
     }()
 
     override func viewDidLoad() {
@@ -70,6 +78,14 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
             self.collectionView?.reloadData()
         }
     }
+    func showAlertWith(description: String?) {
+        if description != nil {
+            self.alert.message = description
+        } else {
+            self.alert.message = RequestError().otherError
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
 
     // MARK: - Collection view layout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -100,18 +116,18 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
                                  at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             guard let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
-                                                                             withReuseIdentifier: HeaderWithSearchBarCell.identifier,
-                                                                             for: indexPath) as? HeaderWithSearchBarCell else {
-                                                                                fatalError("The dequeued cell is not an instance of SearchrResultCell")
+                                            withReuseIdentifier: HeaderWithSearchBarCell.identifier,
+                                            for: indexPath) as? HeaderWithSearchBarCell else {
+                fatalError("The dequeued cell is not an instance of SearchrResultCell")
             }
             cell.searchbar.delegate = presenter
-            
+
             return cell
         }
         guard let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter,
                                                                          withReuseIdentifier: NotFoundCell.identifier,
                                                                          for: indexPath) as? NotFoundCell else {
-                                                                            fatalError("The dequeued cell is not an instance of NotFoundCell")
+                fatalError("The dequeued cell is not an instance of NotFoundCell")
         }
         cell.update(empty: emptyReslut)
         return cell

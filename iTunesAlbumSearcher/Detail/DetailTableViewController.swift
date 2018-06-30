@@ -12,6 +12,7 @@ protocol DetailTableViewControllerInputProtocol: class {
     func displayTracks(_ tracks: [Track])
     func showActivity()
     func hideActivity()
+    func showAlertWith(description: String?)
 }
 
 protocol DetailTableViewControllerOutputProtocol: class {
@@ -33,6 +34,13 @@ class DetailTableViewController: UITableViewController, DetailTableViewControlle
         indicator.activityIndicatorViewStyle = .whiteLarge
         indicator.color = UIColor.black
         return indicator
+    }()
+    // MARK: - Alert view
+    let alert: UIAlertController = {
+        let alert = UIAlertController(title: "Error", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(action)
+        return alert
     }()
 
     override func viewDidLoad() {
@@ -84,6 +92,14 @@ class DetailTableViewController: UITableViewController, DetailTableViewControlle
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    func showAlertWith(description: String?) {
+        if description != nil {
+            self.alert.message = description
+        } else {
+            self.alert.message = RequestError().otherError
+        }
+        self.present(alert, animated: true, completion: nil)
     }
 }
 extension DetailTableViewController {

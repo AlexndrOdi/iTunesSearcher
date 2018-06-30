@@ -16,6 +16,7 @@ protocol SearchInteractorInputProtocol: class {
 
 protocol SearchInteractorOuputProtocol: class {
     func provideAlbums(_ albums: [Album])
+    func provideError(error: Error)
 }
 
 class SearchInteractor: SearchInteractorInputProtocol {
@@ -27,7 +28,11 @@ class SearchInteractor: SearchInteractorInputProtocol {
 
     // MARK: - Functions
     func fetchAlbumsBy(searchString: String) {
-        APIManager.sharedManager.request(searchString, APIManager.API.albums, type: Album.self) { (albums) in
+        APIManager.sharedManager.request(searchString, APIManager.API.albums, type: Album.self) { (albums, error) in
+            if let err = error {
+                self.presenter?.provideError(error: err)
+                return
+            }
             self.albums = albums.sorted(by: { $1.collectionName > $0.collectionName })
             DispatchQueue.main.async {
                 self.updateAlbums()

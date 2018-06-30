@@ -28,4 +28,8 @@ class DetailPresenter: DetailPresenterProtocol {
         view?.hideActivity()
         view?.displayTracks(tracks)
     }
+    func providedError(_ error: Error) {
+        view?.hideActivity()
+        view?.showAlertWith(description: error.localizedDescription)
+    }
 }

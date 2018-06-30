@@ -35,8 +35,12 @@ class SearchPresenter: NSObject, SearchPresenterInputProtocol {
             view?.displaySearchResult(albums: albums)
         }
     }
+    func provideError(error: Error) {
+        view?.hideActivity()
+        view?.showAlertWith(description: error.localizedDescription)
+    }
 
-    // MARK: - SearchBar methods
+    // MARK: - SearchBar functions
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.searchText = searchText
     }
@@ -49,6 +53,7 @@ class SearchPresenter: NSObject, SearchPresenterInputProtocol {
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         interactor?.cancelFetchingAlbums()
+        view?.displayEmptyField(show: false)
         view?.hideActivity()
         searchBar.setShowsCancelButton(false, animated: true)
         searchBar.resignFirstResponder()

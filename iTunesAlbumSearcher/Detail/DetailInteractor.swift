@@ -14,6 +14,7 @@ protocol DetailInteractorInputProtocol: class {
 
 protocol DetailInteractoroutputProtocol: class {
     func providedTracks(_ tracks: [Track])
+    func providedError(_ error: Error)
 }
 
 class DetailInteractor: DetailInteractorInputProtocol {
@@ -26,7 +27,12 @@ class DetailInteractor: DetailInteractorInputProtocol {
     // MARK: - Functions
     func fetchTracksBy(collectionId: Int?) {
         if let this = collectionId {
-            APIManager.sharedManager.request(this.description, APIManager.API.tracks, type: Track.self) { (tracks) in
+            APIManager.sharedManager.request(this.description,
+                                             APIManager.API.tracks,
+                                             type: Track.self) { (tracks, error) in
+                if let err = error {
+                    self.presenter?.providedError(err)
+                }
                 self.tracks = tracks
                 DispatchQueue.main.async {
                     self.provideTracks()

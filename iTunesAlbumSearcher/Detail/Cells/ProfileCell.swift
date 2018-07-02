@@ -57,6 +57,7 @@ class ProfileCell: UITableViewHeaderFooterView {
         return stack
     }()
 
+    // MARK: - Init
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setup()

@@ -13,6 +13,7 @@ public protocol ReuseIdentifierProtocol {
 }
 
 extension ReuseIdentifierProtocol where Self: UIView {
+    ///Return class name in string representaion
     static var identifier: String {
         guard let reuseId = NSStringFromClass(self).components(separatedBy: ".").last else {
             fatalError("Incorrect name of collection view cell.")

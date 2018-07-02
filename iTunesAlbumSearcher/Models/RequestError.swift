@@ -9,5 +9,6 @@
 import Foundation
 
 struct RequestError: Error {
+    // MARK: - Properties
     let otherError = "An error occured while loading data"
 }

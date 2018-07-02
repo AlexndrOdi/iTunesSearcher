@@ -104,7 +104,7 @@ class DetailTableViewController: UITableViewController, DetailTableViewControlle
 }
 extension DetailTableViewController {
 
-    // MARK: - Activity indicator
+    // MARK: - Activity indicator functions
     func showActivity() {
         if activity.isAnimating { return }
         activity.center = self.tableView.center

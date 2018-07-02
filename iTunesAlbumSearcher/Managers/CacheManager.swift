@@ -9,11 +9,12 @@
 import UIKit
 
 class CacheManager {
+    // MARK: - Properties
     static let sharedManager = CacheManager()
 
-    // MARK: - Properties
     var imageCache: NSCache<NSString, UIImage>
 
+    // MARK: - Init
     init() {
         self.imageCache = NSCache()
     }

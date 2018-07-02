@@ -52,6 +52,7 @@ class SearchrResultCell: UICollectionViewCell {
         return indicator
     }()
 
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
 

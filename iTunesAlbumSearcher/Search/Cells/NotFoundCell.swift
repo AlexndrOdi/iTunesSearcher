@@ -18,6 +18,7 @@ class NotFoundCell: UICollectionReusableView {
         return label
     }()
 
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()

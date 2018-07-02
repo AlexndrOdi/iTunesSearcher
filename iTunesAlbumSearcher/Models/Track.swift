@@ -9,6 +9,7 @@
 import Foundation
 
 struct Track: Codable {
+    // MARK: - Properties
     var trackName: String?
     var trackNumber: Int?
 }

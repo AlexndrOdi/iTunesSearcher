@@ -9,6 +9,7 @@
 import Foundation
 
 extension JSONDecoder {
+    ///Return decoded data by path in embedded json
     func decode<T: Decodable>(type: T.Type, from data: Data, byKey path: String) throws -> T {
         let jsonTop = try JSONSerialization.jsonObject(with: data)
         guard let jsonChild = (jsonTop as AnyObject).value(forKeyPath: path) else {

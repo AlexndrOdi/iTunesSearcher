@@ -10,8 +10,10 @@ import Foundation
 
 class SearchConfigurer {
 
+    // MARK: - Properties
     static let sharedInstance = SearchConfigurer()
 
+    // MARK: - Functions
     func configure(view: SearchViewController) {
         let presenter = SearchPresenter()
         let interactor = SearchInteractor()

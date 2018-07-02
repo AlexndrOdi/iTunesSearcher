@@ -20,6 +20,7 @@ class HeaderWithSearchBarCell: UICollectionViewCell {
         return bar
     }()
 
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
 

@@ -10,6 +10,7 @@ import Foundation
 
 class APIManager {
 
+    // MARK: - Enum
     enum API: String {
         case albums = "https://itunes.apple.com/search?entity=album&attribute=albumTerm&limit=50&term="
         case tracks = "https://itunes.apple.com/lookup?entity=song&id="

@@ -9,6 +9,7 @@
 import Foundation
 
 struct Album: Codable {
+    // MARK: - Properties
     var artistName: String
     var artworkUrl100: String
     var collectionId: Int

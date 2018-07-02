@@ -64,30 +64,7 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
         self.view.addSubview(activityIndicator)
     }
 
-    // MARK: - Functions
-    func displaySearchResult(albums: [Album]) {
-        self.albums = albums
-        DispatchQueue.main.async {
-            self.collectionView?.reloadData()
-        }
-    }
-    func displayEmptyField(show: Bool) {
-        emptyReslut = show
-        self.albums = []
-        DispatchQueue.main.async {
-            self.collectionView?.reloadData()
-        }
-    }
-    func showAlertWith(description: String?) {
-        if description != nil {
-            self.alert.message = description
-        } else {
-            self.alert.message = RequestError().otherError
-        }
-        self.present(alert, animated: true, completion: nil)
-    }
-
-    // MARK: - Collection view layout
+    // MARK: - Collection view layout functions
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
@@ -107,7 +84,7 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
         return CGSize(width: self.view.frame.width, height: self.view.frame.height/2)
     }
 
-    // MARK: - Collection view data source
+    // MARK: - Collection view data source functions
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return albums.count
     }
@@ -144,11 +121,10 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
         return cell
     }
 
-    // MARK: - Collection view delegate
+    // MARK: - Collection view delegate functions
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presenter?.navigateToAlbumDetail()
     }
-
 }
 // MARK: - Activity indicator + InputProtocol
 extension SearchViewController: SearchViewControllerInputProtocol {
@@ -161,5 +137,28 @@ extension SearchViewController: SearchViewControllerInputProtocol {
     func hideActivity() {
         if !activityIndicator.isAnimating { return }
         activityIndicator.stopAnimating()
+    }
+
+    // MARK: - Functions
+    func displaySearchResult(albums: [Album]) {
+        self.albums = albums
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
+    }
+    func displayEmptyField(show: Bool) {
+        emptyReslut = show
+        self.albums = []
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
+    }
+    func showAlertWith(description: String?) {
+        if description != nil {
+            self.alert.message = description
+        } else {
+            self.alert.message = RequestError().otherError
+        }
+        self.present(alert, animated: true, completion: nil)
     }
 }

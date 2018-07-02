@@ -10,8 +10,10 @@ import Foundation
 
 class DetailConfigurer {
 
+    // MARK: - Properties
     static let sharedInstance = DetailConfigurer()
 
+    // MARK: - Functions
     func configure(view: DetailTableViewController) {
         let presenter = DetailPresenter()
         let interactor = DetailInteractor()

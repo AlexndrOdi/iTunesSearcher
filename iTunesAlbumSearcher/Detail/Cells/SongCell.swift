@@ -35,6 +35,7 @@ class SongCell: UITableViewCell {
         return stack
     }()
 
+    // MARK: - Init
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()

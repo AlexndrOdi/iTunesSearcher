@@ -57,10 +57,11 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
                                  forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
                                  withReuseIdentifier: NotFoundCell.identifier)
         collectionView?.backgroundColor = UIColor.white
-        self.navigationItem.title = Consts.NavigationTitle.searchView.rawValue
-        self.navigationController?.navigationBar.backgroundColor = UIColor(red: 232/255,
-                                                                           green: 140/255,
-                                                                           blue: 1, alpha: 1)
+        navigationItem.title = Consts.NavigationTitle.searchView.rawValue
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.blue]
+        navigationController?.navigationBar.backgroundColor = UIColor(red: 232/255,
+                                                                      green: 140/255,
+                                                                      blue: 1, alpha: 1)
         self.view.addSubview(activityIndicator)
     }
 
